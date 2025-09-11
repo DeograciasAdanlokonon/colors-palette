@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="fw-bold"><i class="bi bi-palette"></i> Image Color Palette</h1>
+    <p class="text-muted">Upload an image and extract its most common colors</p>
+  </div>
+
+  {% if image_url %}
+  <!-- Uploaded Image -->
+  <div class="text-center mb-4">
+    <h5>Uploaded Image</h5>
+    <img src="{{ image_url }}" class="img-fluid rounded shadow-sm" alt="Uploaded image" style="max-height: 300px;">
+  </div>
+  {% endif %}
+
+  <!-- Upload Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="image" class="form-label">Choose an image</label>
+          <input class="form-control" type="file" name="file" id="image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-magic"></i> Run
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% if colors %}
+  <!-- Color Palette -->
+  <div class="mb-3">
+    <h5 class="text-center mb-3">Extracted Color Palette</h5>
+    <div class="row justify-content-center">
+      {% for color in colors %}
+        {% set hex = "#{:02x}{:02x}{:02x}".format(color[0], color[1], color[2]) %}
+        <div class="col-6 col-md-2 text-center mb-3">
+          <div class="rounded shadow-sm" 
+               style="background-color: {{ hex }}; height: 80px;">
+          </div>
+          <small class="d-block mt-2 fw-bold">{{ hex|upper }}</small>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
