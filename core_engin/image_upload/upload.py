@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 UPLOAD_FOLDER = 'static/uploads' # Folder to store uploaded files
 ALLOWED_EXTENSIONS = ['jpg', 'png', 'gif', 'jpeg'] # Allowed images
@@ -21,10 +22,14 @@ class UploadImage:
     file(obj): The file object to be uploaded
     """
     if file and self.allowed_file(file.filename):
-      file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+      # file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+      # file.save(file_path) # save file
+      # self.imagepath = file_path # store path in object
 
-      file.save(file_path) # save file
-      self.imagepath = file_path # store path in object
+      # Save to temp file
+      with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+          file.save(tmp.name)
+          self.imagepath = tmp.name
 
       self.upload_success = True
     else:
