@@ -52,7 +52,7 @@ def index():
           status = data[3] # status returned from core
 
           # delete the used image to free space
-          upload.delete_file(upload.imagepath)
+          # upload.delete_file(upload.imagepath)
 
           flash(message, status)
           return render_template('index.html', image_url=image_url, colors=colors_palette)
